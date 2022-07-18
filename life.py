@@ -10,9 +10,12 @@ class Life:
         
 
     def run_step(self):
-        self.__pad_cell()
-        self.cell = self.__generate_next_cell()
-        self.__crop_cell()
+        try:
+            self.__pad_cell()
+            self.cell = self.__generate_next_cell()
+            self.__crop_cell()
+        except IndexError:
+            return # she's dead, jim
     
     def __generate_next_cell(self):
         new_cell = copy.deepcopy(self.cell)
@@ -36,27 +39,20 @@ class Life:
         self.cell.append([0] * len(self.cell[0]))   # bottom
 
     def __crop_cell(self):
-        still_cropping = True
-        while still_cropping:
-            still_cropping = False
-            # top
-            if sum(self.cell[0]) == 0:
-                del self.cell[0]
-                still_cropping = True
-            # bottom
-            if sum(self.cell[-1]) == 0:
-                del self.cell[-1]
-                still_cropping = True
-            # left
-            if sum(row[0] for row in self.cell) == 0:
-                for row in self.cell:
-                    del row[0]
-                still_cropping = True
-            # right
-            if sum(row[-1] for row in self.cell) == 0:
-                for row in self.cell:
-                    del row[-1]
-                still_cropping = True
+        # top
+        while not any(self.cell[0]):
+            del self.cell[0]
+        # bottom
+        while not any(self.cell[-1]):
+            del self.cell[-1]
+        # left
+        while not any(row[0] for row in self.cell):
+            for row in self.cell:
+                del row[0]
+        # right
+        while not any(row[-1] for row in self.cell):
+            for row in self.cell:
+                del row[-1]
 
     def __count_neighbors(self, x, y):
         # scope cell down to only neighbor blocks; sum them all up.
