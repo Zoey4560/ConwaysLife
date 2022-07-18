@@ -7,7 +7,7 @@ from life import Life
 def garbage_visualize(env: Life):
     print("\033[H\033[J", end="")
     for row in env.cell:
-        print(''.join(map(lambda x: '  ' if x == 0 else '[]', row)))
+        print(''.join(map(lambda x: '  ' if x == 0 else ' o', row)))
 
 
 glider = [
@@ -63,7 +63,7 @@ switch_engine = [
 ]
 
 
-random = [[randint(0,1) for _ in range(30)] for _ in range(50)]
+random = [[randint(0,1) for _ in range(10)] for _ in range(10)]
 
 
 
